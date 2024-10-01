@@ -1,15 +1,7 @@
 # yamllint disable rule:line-length
 ---
   name: Print Formatted Username
-  on:
-    workflow_call:
-      inputs:
-        slackChannel:
-          type: string
-          description: Channel to post notifications
-          default: build
-          required: true
-  
+  on: [push]
   jobs:
     print-username:
       runs-on: ubuntu-latest
@@ -23,6 +15,7 @@
               const actor = '${{ github.actor }}';
               const regex = /(\w+)-(\w+)-(\w+)/;
               const matches = actor.match(regex);
+              console.log(matches);
               if (matches) {
                 const formattedUsername = `@${matches[1]} ${matches[2]}`;
                 core.setOutput('formattedUsername', formattedUsername);
