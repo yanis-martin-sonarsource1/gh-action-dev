@@ -18,11 +18,10 @@
               console.log(matches);
               if (matches) {
                 const formattedUsername = `@${matches[1]} ${matches[2]}`;
-                console.log(formattedUsername);
                 return { formattedUsername };
               } else {
                 console.log("in the else");
                 return { formattedUsername: '' };
               }
         - name: Print formatted username
-          run: echo "${{ steps.extract.outputs.formattedUsername }}" 
+          run: echo "${{ steps.extract.outputs.result }}" 
