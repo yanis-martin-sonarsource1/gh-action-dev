@@ -17,8 +17,8 @@
               const matches = actor.match(regex);
               console.log(matches);
               if (matches) {
-                console.log("in the if");
                 const formattedUsername = `@${matches[1]} ${matches[2]}`;
+                console.log(formattedUsername);
                 return { formattedUsername };
               } else {
                 console.log("in the else");
