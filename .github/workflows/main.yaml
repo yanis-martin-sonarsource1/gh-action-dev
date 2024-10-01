@@ -24,4 +24,4 @@
                 return '';
               }
         - name: Print formatted username
-          run: echo "${{ steps.extract.outputs.result.formattedUsername }}" 
+          run: echo "${{ steps.extract.outputs.result }}" 
