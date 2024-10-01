@@ -16,11 +16,12 @@
               const regex = /(\w+)-(\w+)-(\w+)/;
               const matches = actor.match(regex);
               console.log(matches);
-              console.log(matches == true);
               if (matches) {
+                console.log("in the if");
                 const formattedUsername = `@${matches[1]} ${matches[2]}`;
                 return { formattedUsername };
               } else {
+                console.log("in the else");
                 return { formattedUsername: '' };
               }
         - name: Print formatted username
