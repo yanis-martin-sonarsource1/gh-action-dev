@@ -16,6 +16,7 @@
               const regex = /(\w+)-(\w+)-(\w+)/;
               const matches = actor.match(regex);
               console.log(matches);
+              console.log(matches == true);
               if (matches) {
                 const formattedUsername = `@${matches[1]} ${matches[2]}`;
                 return { formattedUsername };
