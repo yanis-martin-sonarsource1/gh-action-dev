@@ -29,4 +29,4 @@
               } else {
                 core.setOutput('formattedUsername', '');
         - name: Print formatted username
-          run: echo "${{ steps.extract.outputs.formattedUsername }}"
+          run: echo "${{ steps.extract.outputs.formattedUsername }}" 
