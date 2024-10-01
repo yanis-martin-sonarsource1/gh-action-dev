@@ -1,33 +1,33 @@
 # yamllint disable rule:line-length
 ---
-name: Print Formatted Username
-on:
-  workflow_call:
-    inputs:
-      slackChannel:
-        type: string
-        description: Channel to post notifications
-        default: build
-        required: true
-
-jobs:
-  print-username:
-    runs-on: ubuntu-latest
-    name: Print Formatted Username
-    steps:
-      - name: Extract and format username
-        id: extract
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const actor = '${{ github.actor }}';
-            const regex = /(\w+)-(\w+)-(\w+)/;
-            const matches = actor.match(regex);
-            if (matches) {
-              const formattedUsername = `@${matches[1]} ${matches[2]}`;
-              return { formattedUsername };
-            } else {
-              return { formattedUsername: '' };
-            }
-      - name: Print formatted username
-        run: echo "Formatted Username: ${{ steps.extract.outputs.formattedUsername }}"
+  name: Print Formatted Username
+  on:
+    workflow_call:
+      inputs:
+        slackChannel:
+          type: string
+          description: Channel to post notifications
+          default: build
+          required: true
+  
+  jobs:
+    print-username:
+      runs-on: ubuntu-latest
+      name: Print Formatted Username
+      steps:
+        - name: Extract and format username
+          id: extract
+          uses: actions/github-script@v7
+          with:
+            script: |
+              const actor = '${{ github.actor }}';
+              const regex = /(\w+)-(\w+)-(\w+)/;
+              const matches = actor.match(regex);
+              if (matches) {
+                const formattedUsername = `@${matches[1]} ${matches[2]}`;
+                core.setOutput('formattedUsername', formattedUsername);
+              } else {
+                core.setOutput('formattedUsername', '');
+              }
+        - name: Print formatted username
+          run: echo "Formatted Username: ${{ steps.extract.outputs.formattedUsername }}"
