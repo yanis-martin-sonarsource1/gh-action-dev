@@ -18,8 +18,9 @@
               console.log(matches);
               if (matches) {
                 const formattedUsername = `@${matches[1]} ${matches[2]}`;
-                core.setOutput('formattedUsername', formattedUsername);
+                return { formattedUsername };
               } else {
-                core.setOutput('formattedUsername', '');
+                return { formattedUsername: '' };
+              }
         - name: Print formatted username
           run: echo "${{ steps.extract.outputs.formattedUsername }}" 
