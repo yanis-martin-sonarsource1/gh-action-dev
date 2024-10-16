@@ -1,26 +1,11 @@
-name: Enable Auto Merge
-
+name: Comment when opened
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
-
-permissions:
-  pull-requests: write  # Set permission for pull requests
-
+    pull_request:
+      types: [opened, reopened, synchronize]
 jobs:
-  enable-auto-merge:
+  comment:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up GitHub CLI
-        uses: cli/cli@v2
-
-      - name: Enable Pull Request Automerge
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
-          gh pr merge "${{ github.event.pull_request.number }}" --squash --auto
+      - run: gh pr merge "${{ github.event.pull_request.number }}" --squash --auto
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
