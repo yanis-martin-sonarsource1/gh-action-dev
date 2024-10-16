@@ -5,7 +5,7 @@ on:
     types: [opened, reopened, synchronize]
 
 permissions:
-  pull-requests: write
+  pull-requests: write  # Set permission for pull requests
 
 jobs:
   enable-auto-merge:
@@ -15,7 +15,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up GitHub CLI
+        uses: cli/cli@v2
+
       - name: Enable Pull Request Automerge
-        run: gh pr merge --squash --auto "${{ github.event.pull_request.number }}"
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          gh pr merge "${{ github.event.pull_request.number }}" --squash --auto
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use built-in token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
