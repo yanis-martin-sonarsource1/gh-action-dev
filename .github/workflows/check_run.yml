@@ -1,5 +1,5 @@
 name: Create Check Run
- 
+  
 on:
   pull_request:
     types: [opened, synchronize, reopened]
