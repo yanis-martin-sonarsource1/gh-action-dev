@@ -1,0 +1,44 @@
+name: Create Check Run
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  create-check-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Create Check Run
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO_OWNER: ${{ github.repository_owner }}
+        REPO_NAME: ${{ github.event.repository.name }}
+      run: |
+        curl -X POST \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/check-runs \
+          -d '{
+            "name": "Example Check Run",
+            "head_sha": "${{ github.event.pull_request.head.sha }}",
+            "status": "in_progress",
+            "started_at": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+          }' > check_run_response.json
+
+        CHECK_RUN_ID=$(jq -r '.id' check_run_response.json)
+
+        sleep 30
+
+        curl -X PATCH \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/check-runs/$CHECK_RUN_ID \
+          -d '{
+            "status": "completed",
+            "completed_at": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'",
+            "conclusion": "success"
+          }'
