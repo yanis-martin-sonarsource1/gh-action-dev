@@ -1,4 +1,4 @@
-name: Enable auto-merge
+name: Comment when opened
 on:
     pull_request:
       types: [opened, reopened, synchronize]
@@ -9,5 +9,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-
+        
+      - run: gh pr merge "${{ github.event.pull_request.number }}" --squash --auto
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
